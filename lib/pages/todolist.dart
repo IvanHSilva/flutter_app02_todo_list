@@ -1,34 +1,55 @@
 import 'package:flutter/material.dart';
 
 class ToDoList extends StatelessWidget {
-  const ToDoList({Key? key}) : super(key: key);
+  ToDoList({Key? key}) : super(key: key);
+
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: TextField(
-            decoration: InputDecoration(
-              labelText: 'E-Mail',
-              hintText: 'email@email.com',
-              border: OutlineInputBorder(),
-              //prefixText: 'R\$ ',
-              //suffixText: ' cm',
-              labelStyle: TextStyle(
-                fontSize: 20,
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: 'E-Mail',
+                  hintText: 'email@email.com',
+                  border: OutlineInputBorder(),
+                  //prefixText: 'R\$ ',
+                  //suffixText: ' cm',
+                  labelStyle: TextStyle(
+                    fontSize: 20,
+                  ),
+                  errorText: null,
+                ),
+                keyboardType: TextInputType.emailAddress,
+                style: const TextStyle(
+                  fontSize: 20,
+                  //fontWeight: FontWeight.bold,
+                ),
               ),
-              errorText: null,
-            ),
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: login,
+                child: const Text('Entrar'),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  void login() {
+    String email = emailController.text;
+    print(email);
+    emailController.clear();
   }
 }
