@@ -32,6 +32,8 @@ class ToDoList extends StatelessWidget {
                   fontSize: 20,
                   //fontWeight: FontWeight.bold,
                 ),
+                onChanged: onChanged,
+                onSubmitted: onSubmitted,
               ),
               const SizedBox(
                 height: 20,
@@ -51,5 +53,15 @@ class ToDoList extends StatelessWidget {
     String email = emailController.text;
     print(email);
     emailController.clear();
+  }
+
+  // Somente leitura, a cada letra digitada
+  void onChanged(String text) {
+    //print(text);
+  }
+
+  // Somente quando é pressionado o botão
+  void onSubmitted(String text) {
+    print(text);
   }
 }
