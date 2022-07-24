@@ -9,59 +9,40 @@ class ToDoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
+        // Row tem largura infinita
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
             children: [
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'E-Mail',
-                  hintText: 'email@email.com',
-                  border: OutlineInputBorder(),
-                  //prefixText: 'R\$ ',
-                  //suffixText: ' cm',
-                  labelStyle: TextStyle(
-                    fontSize: 20,
+              // Permte extender o widget com a máxima largura disponível
+              const Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Adione uma tarefa',
+                    hintText: 'Estudar programação',
                   ),
-                  errorText: null,
                 ),
-                keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(
-                  fontSize: 20,
-                  //fontWeight: FontWeight.bold,
-                ),
-                onChanged: onChanged,
-                onSubmitted: onSubmitted,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(width: 8),
               ElevatedButton(
-                onPressed: login,
-                child: const Text('Entrar'),
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  //primary: Colors.green,
+                  primary: const Color(0XFF58D8B5),
+                  fixedSize: const Size(50, 50),
+                  padding: const EdgeInsets.all(16),
+                ),
+                //child: const Text('+'),
+                child: const Icon(
+                  Icons.add,
+                  size: 30,
+                ),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  void login() {
-    String email = emailController.text;
-    print(email);
-    emailController.clear();
-  }
-
-  // Somente leitura, a cada letra digitada
-  void onChanged(String text) {
-    //print(text);
-  }
-
-  // Somente quando é pressionado o botão
-  void onSubmitted(String text) {
-    print(text);
   }
 }
