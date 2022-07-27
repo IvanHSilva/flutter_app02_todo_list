@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ToDoList extends StatelessWidget {
+class ToDoList extends StatefulWidget {
   ToDoList({Key? key}) : super(key: key);
 
-  final TextEditingController emailController = TextEditingController();
+  @override
+  State<ToDoList> createState() => _ToDoListState();
+}
+
+class _ToDoListState extends State<ToDoList> {
+  final TextEditingController taskController = TextEditingController();
+
+  List<String> tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +25,10 @@ class ToDoList extends StatelessWidget {
               Row(
                 children: [
                   // Permite extender o widget com a máxima largura disponível
-                  const Expanded(
+                  Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: taskController,
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Adione uma tarefa',
                         hintText: 'Estudar programação',
@@ -29,7 +37,13 @@ class ToDoList extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      String task = taskController.text;
+                      setState(() {
+                        tasks.add(task);
+                      });
+                      taskController.clear();
+                    },
                     style: ElevatedButton.styleFrom(
                       //primary: Colors.green,
                       primary: const Color(0XFF58D8B5),
@@ -45,11 +59,19 @@ class ToDoList extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              ListView(
-                shrinkWrap: true,
-                children: [
-                  Container(),
-                ],
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    for (String task in tasks)
+                      ListTile(
+                        title: Text(task),
+                        onTap: () {
+                          print(task);
+                        },
+                      ),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               Row(
