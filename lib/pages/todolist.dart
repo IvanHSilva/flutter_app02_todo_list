@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../models/task.dart';
 import '../widgets/tasklistitem.dart';
 
 class ToDoList extends StatefulWidget {
-  ToDoList({Key? key}) : super(key: key);
+  const ToDoList({Key? key}) : super(key: key);
 
   @override
   State<ToDoList> createState() => _ToDoListState();
@@ -12,7 +13,7 @@ class ToDoList extends StatefulWidget {
 class _ToDoListState extends State<ToDoList> {
   final TextEditingController taskController = TextEditingController();
 
-  List<String> tasks = [];
+  List<Task> tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,11 @@ class _ToDoListState extends State<ToDoList> {
                       onPressed: () {
                         String task = taskController.text;
                         setState(() {
-                          tasks.add(task);
+                          Task newTask = Task(
+                            title: task,
+                            taskDate: DateTime.now(),
+                          );
+                          tasks.add(newTask);
                         });
                         taskController.clear();
                       },
@@ -66,9 +71,9 @@ class _ToDoListState extends State<ToDoList> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      for (String task in tasks)
+                      for (Task task in tasks)
                         TaskListItem(
-                          title: task,
+                          task: task,
                         ),
                       // ListTile(
                       //   title: Text(task),
