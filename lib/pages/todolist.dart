@@ -74,6 +74,7 @@ class _ToDoListState extends State<ToDoList> {
                       for (Task task in tasks)
                         TaskListItem(
                           task: task,
+                          onDelete: onDelete,
                         ),
                       // ListTile(
                       //   title: Text(task),
@@ -108,5 +109,11 @@ class _ToDoListState extends State<ToDoList> {
         ),
       ),
     );
+  }
+
+  void onDelete(Task task) {
+    setState(() {
+      tasks.remove(task);
+    });
   }
 }
