@@ -14,6 +14,8 @@ class _ToDoListState extends State<ToDoList> {
   final TextEditingController taskController = TextEditingController();
 
   List<Task> tasks = [];
+  Task? deletedTask;
+  int? deletedPos;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +44,9 @@ class _ToDoListState extends State<ToDoList> {
                     const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
-                        String task = taskController.text;
                         setState(() {
                           Task newTask = Task(
-                            title: task,
+                            title: taskController.text,
                             taskDate: DateTime.now(),
                           );
                           tasks.add(newTask);
@@ -93,7 +94,7 @@ class _ToDoListState extends State<ToDoList> {
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: confirmClear,
                       style: ElevatedButton.styleFrom(
                         //primary: Colors.green,
                         primary: Colors.blue,
@@ -112,8 +113,66 @@ class _ToDoListState extends State<ToDoList> {
   }
 
   void onDelete(Task task) {
+    deletedTask = task;
+    deletedPos = tasks.indexOf(task);
     setState(() {
       tasks.remove(task);
+    });
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Tarefa ${task.title} removida com sucesso!',
+          style: const TextStyle(
+            color: Colors.blue,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        action: SnackBarAction(
+          label: 'Desfazer',
+          textColor: Colors.blue,
+          onPressed: () {
+            setState(() {
+              tasks.insert(deletedPos!, deletedTask!);
+            });
+          },
+        ),
+        duration: const Duration(seconds: 5),
+      ),
+    );
+  }
+
+  void confirmClear() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Confirmar Exclusão...'),
+        content: const Text('Deseja apagar todas as tarefas?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: TextButton.styleFrom(primary: Colors.red),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              deleteAllTasks();
+              Navigator.of(context).pop();
+            },
+            style: TextButton.styleFrom(primary: Colors.blue),
+            child: const Text('Confirmar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void deleteAllTasks() {
+    setState(() {
+      tasks.clear();
     });
   }
 }

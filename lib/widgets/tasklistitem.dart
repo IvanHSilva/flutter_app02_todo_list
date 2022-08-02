@@ -17,29 +17,14 @@ class TaskListItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Slidable(
-        key: const ValueKey(1),
-        startActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          children: [
-            SlidableAction(
-              onPressed: (context) {
-                onDelete(task);
-              },
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              icon: Icons.delete,
-              label: 'Excluir',
-            ),
-          ],
-        ),
+        //key: const ValueKey(1),
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
           children: [
             SlidableAction(
-              onPressed: (context) {
+              onPressed: (BuildContext context) {
                 onDelete(task);
               },
-              flex: 2,
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               icon: Icons.delete,
