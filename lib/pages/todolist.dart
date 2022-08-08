@@ -18,6 +18,7 @@ class _ToDoListState extends State<ToDoList> {
   List<Task> tasks = [];
   Task? deletedTask;
   int? deletedPos;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -47,29 +48,46 @@ class _ToDoListState extends State<ToDoList> {
                     Expanded(
                       child: TextField(
                         controller: taskController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
                           labelText: 'Adione uma tarefa',
                           hintText: 'Estudar programação',
+                          errorText: errorMessage,
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                              width: 2,
+                            ),
+                          ),
+                          labelStyle: const TextStyle(
+                            color: Colors.blue,
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
+                        if (taskController.text == '') {
+                          setState(() {
+                            errorMessage = 'Digite uma Tarefa!';
+                          });
+                          return;
+                        }
                         setState(() {
                           Task newTask = Task(
                             title: taskController.text,
                             taskDate: DateTime.now(),
                           );
-                          if (taskController.text != '') tasks.add(newTask);
+                          tasks.add(newTask);
+                          errorMessage = null;
                         });
                         taskController.clear();
                         taskRepository.saveTaskList(tasks);
                       },
                       style: ElevatedButton.styleFrom(
-                        //primary: Colors.green,
-                        primary: const Color(0XFF58D8B5),
+                        primary: Colors.blue,
+                        //primary: const Color(0XFF58D8B5),
                         fixedSize: const Size(50, 50),
                         padding: const EdgeInsets.all(16),
                       ),
