@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/task.dart';
+import '../repositories/taskrepository.dart';
 import '../widgets/tasklistitem.dart';
 
 class ToDoList extends StatefulWidget {
@@ -12,6 +13,7 @@ class ToDoList extends StatefulWidget {
 
 class _ToDoListState extends State<ToDoList> {
   final TextEditingController taskController = TextEditingController();
+  final TaskRepository taskRepository = TaskRepository();
 
   List<Task> tasks = [];
   Task? deletedTask;
@@ -49,9 +51,10 @@ class _ToDoListState extends State<ToDoList> {
                             title: taskController.text,
                             taskDate: DateTime.now(),
                           );
-                          tasks.add(newTask);
+                          if (taskController.text != '') tasks.add(newTask);
                         });
                         taskController.clear();
+                        taskRepository.saveTaskList(tasks);
                       },
                       style: ElevatedButton.styleFrom(
                         //primary: Colors.green,

@@ -3,4 +3,11 @@ class Task {
 
   String title;
   DateTime taskDate;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'dateTime': taskDate.toIso8601String(),
+    };
+  }
 }
